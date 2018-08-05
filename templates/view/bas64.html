@@ -1,0 +1,34 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<script>
+document.addEventListener('paste',handleClipBoard)
+function handleClipBoard(e){
+    e.preventDefault();
+    var  clipboardFile= e.clipboardData.files[0];
+    var reader = new FileReader();
+    reader.onload = function (evt) {
+        document.getElementById("result").value=evt.target.result;
+        document.getElementById("img_source").src = evt.target.result;
+    }
+    try{
+        reader.readAsDataURL(clipboardFile);
+    }catch(e){
+        alert('バイナリデータ以外は貼り付けできません')
+    }
+}
+</script>
+</head>
+
+<body>
+<form action='/imageentry' method='post'>
+<textArea name='base64image' id='result' cols='100' rows='20'></textArea><br><br><br>
+<img id="img_source"></img><br>
+examkind:<input type='text' name='examkind'  size='10'><br>
+Season:<input type='text' name='season'  size='10'><br>
+questionkind:<input type='text' name='questionkind'  size='10'><br>
+questionno:<input type='text' name='questionno'  size='10'><br>
+<input type='submit' name='submit' >
+</body>
+</form>
+</html>
