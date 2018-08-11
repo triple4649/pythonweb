@@ -37,6 +37,18 @@ def add_entry():
     from logic.mywebapp import add_Image_toDB
     add_Image_toDB(request.form)
     return redirect(url_for('show_regist_image'))
+
+
+@app.route('/wasource')
+def get_wasresource():
+    import urllib
+    from logic.wasdata  import add_Word_toDB
+    querry=urllib.parse.urlencode({"path":"/pdf/xml/2017h29h_sc_am2_qs.pdf.xml"})
+    url ='http://mywebapp_web_1:9080/MyWebApp/sample/Area?{0}'.format(querry)
+    import urllib.request
+    with urllib.request.urlopen(url) as response:
+        body = response.read().decode('utf-8')
+    return render_template('view/was.haml',resouce=body)
     
 if __name__ == '__main__':
     #init()

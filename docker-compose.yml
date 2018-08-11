@@ -26,6 +26,12 @@ services:
     depends_on:
      - redis
      - db
+    networks:
+     - dns
   redis:
     image: redis
+    
+networks:
+  dns:
+    external: true
     
