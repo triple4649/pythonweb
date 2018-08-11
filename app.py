@@ -15,6 +15,7 @@ app = FlaskWithHamlish(__name__)
 db_uri = os.environ.get('DATABASE_URL') or "postgresql://python:triple4649@pythonpostgres/python"
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri # 追加
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.config['testing'] = True
 db = SQLAlchemy(app) # 追加
 redis = Redis(host='redis', port=6379)
 
@@ -37,7 +38,7 @@ def add_entry():
     add_Image_toDB(request.form)
     return redirect(url_for('show_regist_image'))
     
-if __name__ == "__main__":
+if __name__ == '__main__':
     #init()
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host='0.0.0.0',debug=True)
 
