@@ -22,13 +22,15 @@ function handleClipBoard(e){
 
 <body>
 <form action='/imageentry' method='post'>
-<textArea name='base64image' id='result' cols='100' rows='20'></textArea><br><br><br>
-<img id="img_source"></img><br>
+year:<input type='text' name='year'  size='10'><br>
 examkind:<input type='text' name='examkind'  size='10'><br>
 Season:<input type='text' name='season'  size='10'><br>
 questionkind:<input type='text' name='questionkind'  size='10'><br>
 questionno:<input type='text' name='questionno'  size='10'><br>
-<input type='submit' name='submit' >
+questiondetailno:<input type='text' name='questiondetailno'  size='10'><br>
+<input type='submit' name='submit' ><br><br>
+<textArea name='base64image' id='result' cols='100' rows='20'></textArea><br>
+<img id="img_source"></img><br>
 </body>
 </form>
 </html>
