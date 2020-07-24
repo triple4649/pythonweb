@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 from flask import Flask, render_template,g, request, redirect, url_for
 from redis import Redis
 from flask_sqlalchemy import SQLAlchemy # 変更

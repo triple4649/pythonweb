@@ -13,7 +13,6 @@
     //オブジェクトのリサイズ時に一度、イベントハンドラの処理を行ったら
     //それ以降イベントハンドラの追加処理を抑止するためのフラグです
     var isChangeEvent = false
-    var bmp
     
     function MyCanvasHander(mystage){
         //CreateJsのStageオブジェクト
@@ -41,7 +40,7 @@
             firstmove = false
             var rect = e.target.getBoundingClientRect();
             //四角形のオブジェクトを生成する
-            myshape = new Rectengle(
+            myshape = new Rectangle(
                 dragPointX,
                 dragPointY,
                 e.clientX - rect.left-dragPointX,
@@ -53,7 +52,7 @@
         this.handleMouseup = function(e){
             myshape.shape.alpha = 1.0;
             mouseclickflag =false
-            console.log('test')
+            //画像の切り抜きを行う
             trancf(myshape.rect)
         }
     }
@@ -88,7 +87,7 @@
         myCanvasHander= new MyCanvasHander(new createjs.Stage("myCanvas"))
         sOpe = new ShapeOperationToCanvas(myCanvasHander)
         //イメージの表示
-        bmp = new createjs.Bitmap("sample.jpg");
+        var bmp = new createjs.Bitmap("sample.jpg");
         var s =new createjs.Stage("myCanvas")
         myCanvasHander.stage.addChild(bmp);
         createjs.Ticker.on("tick", function () {
@@ -97,7 +96,7 @@
         });    
       }
     
-    function Rectengle(start_x,start_y,width,height,color){
+    function Rectangle(start_x,start_y,width,height,color){
         this.color=color
         var shape= new createjs.Shape();
         var dragPointX;
@@ -174,6 +173,7 @@
             
     }
     //画像の切り抜きを行う関数です
+    //rect:切り取り領域（x座標、y座標、幅、高さ）
     function trancf(rect){
         //コピー元のキャンバス
         var c_copy_from =document.getElementById("myCanvas");
@@ -184,8 +184,9 @@
         copy_canvas.height =rect.height
         //コピー先のキャンバスです
         var ctx = copy_canvas.getContext('2d');
-       //コピー元のキャンバスからコピー先のキャンバスに画像をコピーします
+        //画像を切り抜きます
         ctx.drawImage(c_copy_from, rect.x,rect.y,rect.width,rect.height,0,0,rect.width,rect.height);
+       //コピー元のキャンバスからコピー先のキャンバスに画像をコピーします
         var s =new createjs.Stage("myCanvas2")
         s.addChild(new createjs.Bitmap(copy_canvas));
         s.update()
@@ -193,28 +194,31 @@
     
   </script>
 </head>
-<body>
-<div style="display:table">
-    <div style="display:table-row"> 
-        <div  style="display:table-cell;vertical-align: top;">
+<body style='overflow:hidden'>
+<div style="display: flex;">
+        <div style='border: double 1px #0000ff;'>
+            <div style='overflow:auto;height:200px'>
+              <canvas id="myCanvas" width="600" height="900" style='width:auto;'></canvas><br>
+            </div>
+              <h1 id="-">使い方</h1>
+              <ul>
+              <li>図形追加ボタン ONを押したとき<br>マウスの動きの合わせて図形が追加できます<br>この時、Cavasに追加オブジェクトを移動させたり、リサイズしたりはできません    </li>
+              <li>図形追加ボタン OFFを押したとき<br>図形追加モードが解除され、追加したイメージの移動ができるようになります    </li>
+              <li>図形リサイズON ボタンを押したとき<br>Canvasに追加したイメージをリサイズすることができます。<br>この時、イメージの移動はできません</li>
+              <li>図形リサイズOFFボタンを押したとき<br>Canvasに追加したイメージを移動できるようになります</li>
+              </ul>
+        </div>
+        <div>
+            <div style='display: flex;flex-direction: column;'>
             <input type = button  value = "図形追加 ON" onclick="sOpe.addOperation();isResize=false">
             <input type = button  value = "図形追加 OFF" onclick="sOpe.removeOperation();isResize=false">
             <input type = button  value = "図形リサイズ ON" onclick="isResize=true">
             <input type = button  value = "図形リサイズ OFF" onclick="isResize=false;isChangeEvent=false"><br><br>
-            <canvas id="myCanvas" width="600" height="700"></canvas><br>
-            
-            <h1 id="-">使い方</h1>
-            <ul>
-            <li>図形追加ボタン ONを押したとき<br>マウスの動きの合わせて図形が追加できます<br>この時、Cavasに追加オブジェクトを移動させたり、リサイズしたりはできません    </li>
-            <li>図形追加ボタン OFFを押したとき<br>図形追加モードが解除され、追加したイメージの移動ができるようになります    </li>
-            <li>図形リサイズON ボタンを押したとき<br>Canvasに追加したイメージをリサイズすることができます。<br>この時、イメージの移動はできません</li>
-            <li>図形リサイズOFFボタンを押したとき<br>Canvasに追加したイメージを移動できるようになります</li>
-            </ul>
-        </div>    
-        <div  style="display:table-cell;display:table-cell;vertical-align: top;">
-            <canvas id="myCanvas2" width="700" height="500"></canvas><br>
+            </div>
         </div>
-    </div>
+        <div  style='border: double 1px red;'>
+            <canvas id="myCanvas2" width="400" height="300"></canvas><br>
+        </div>
 </div>    
 
 </body>
