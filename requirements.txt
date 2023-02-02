@@ -6,5 +6,5 @@ Jinja2
 MarkupSafe
 psycopg2
 redis
-Werkzeug==0.15
+Werkzeug==0.15.5
 flask_sqlalchemy
